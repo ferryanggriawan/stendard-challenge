@@ -1,7 +1,16 @@
 <template>
   <main-layout>
     <template v-slot:drawer>
-      <file-info />
+      <template v-if="activeClass != null">
+        <file-info />
+      </template>
+      <template v-else>
+        <v-row align="center" class="mt-5">
+          <v-col cols="12" class="text-center">
+            Select file or folder
+          </v-col>
+        </v-row>
+      </template>
     </template>
 
     <v-row class="mt-8">
@@ -16,6 +25,7 @@
             class="recent-card"
             :class="{ active: index === activeClass ? 'active' : '' }"
             @click="setActive(index)"
+            @contextmenu="rightClick($event, index)"
           >
             <v-img
               v-if="file.file_type === 'after_effect'"
@@ -59,6 +69,7 @@
             class="recent-card"
             :class="{ active: i === activeClass ? 'active' : '' }"
             @click="setActive(i)"
+            @contextmenu="rightClick($event, i)"
           >
             <v-img width="80" src="../assets/icon/folder.svg"></v-img>
             <div class="text-truncate">{{ folder.file }}</div>
@@ -70,10 +81,14 @@
     <v-row class="mt-8">
       <v-col cols="12">
         <v-data-table
+          v-model="selected"
+          single-select
           :headers="headers"
           :items="directories.filter((val) => val.type !== 'folder')"
           disable-pagination
           hide-default-footer
+          @click:row="toggleSelected"
+          @contextmenu:row="(e, item) => rightClick(e, item, 'table')"
         >
           <template v-slot:[`item.filename`]="{ item }">
             <v-icon :color="fileTypes[item.file_type].color">
@@ -86,6 +101,25 @@
         </v-data-table>
       </v-col>
     </v-row>
+
+    <v-menu
+      v-model="showMenu"
+      :position-x="x"
+      :position-y="y"
+      absolute
+      offset-y
+    >
+      <v-list>
+        <v-list-item dense v-for="(item, index) in items" :key="index">
+          <v-list-item-icon>
+            <v-icon>{{ item.icon }}</v-icon>
+          </v-list-item-icon>
+          <v-list-item-title>
+            {{ item.title }}
+          </v-list-item-title>
+        </v-list-item>
+      </v-list>
+    </v-menu>
   </main-layout>
 </template>
 
@@ -94,7 +128,29 @@ export default {
   name: "Home",
   data() {
     return {
+      showMenu: false,
+      x: 0,
+      y: 0,
+      items: [
+        { title: "Preview", icon: "remove_red_eye", action: "" },
+        { title: "Live Edit", icon: "border_color", action: "" },
+        { title: "Edit in Word 365", icon: "insert_drive_file", action: "" },
+        { title: "Rename", icon: "format_italic", action: "" },
+        { title: "Copy Link", icon: "link", action: "" },
+        { title: "Move File", icon: "gamepad", action: "" },
+        {
+          title: "Start Version Control",
+          icon: "format_list_numbered",
+          action: "",
+        },
+        { title: "See Workflow", icon: "swap_horiz", action: "" },
+        { title: "Share", icon: "share", action: "" },
+        { title: "Document Info", icon: "info", action: "" },
+        { title: "Download", icon: "file_download_off", action: "" },
+        { title: "Delete File", icon: "delete", action: "" },
+      ],
       activeClass: null,
+      selected: [],
       fileTypes: {
         docx: { icon: "description", color: "blue" },
         jpg: { icon: "image", color: "grey" },
@@ -353,7 +409,36 @@ export default {
 
   methods: {
     setActive(index) {
-      this.activeClass = index
+      if (this.activeClass === index) {
+        this.activeClass = null
+      } else {
+        this.activeClass = index
+        this.selected = []
+      }
+    },
+
+    rightClick(e, indexOrItem, position) {
+      e.preventDefault()
+      if (position == "table") {
+        this.toggleSelected(indexOrItem.item)
+      } else {
+        if (this.activeClass !== indexOrItem) {
+          this.setActive(indexOrItem)
+        }
+      }
+
+      this.showMenu = false
+      this.x = e.clientX
+      this.y = e.clientY
+
+      this.$nextTick(() => {
+        this.showMenu = true
+      })
+    },
+
+    toggleSelected(item) {
+      this.selected = [item]
+      this.activeClass = -1
     },
   },
 }
@@ -390,5 +475,19 @@ header {
 
 .w-75 {
   width: 75% !important;
+}
+
+.theme--light.v-data-table tbody tr.v-data-table__selected {
+  background: #e7f3ff !important;
+}
+
+.v-list-item--dense,
+.v-list--dense .v-list-item {
+  min-height: 30px;
+
+  .v-list-item__title {
+    font-size: 11px;
+    line-height: 12px;
+  }
 }
 </style>

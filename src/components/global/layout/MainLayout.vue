@@ -1,6 +1,10 @@
 <template>
   <div class="pa-6">
-    <div @click="toggleRightDrawer" class="right-toggle-btn">
+    <div
+      @click="toggleRightDrawer"
+      :style="{ right: right }"
+      class="right-toggle-btn"
+    >
       <v-icon>keyboard_arrow_right</v-icon>
     </div>
     <v-navigation-drawer
@@ -119,6 +123,7 @@ export default {
   data() {
     return {
       panel: [],
+      right: "325px",
       drawer: true,
       items: [
         {
@@ -143,6 +148,11 @@ export default {
   methods: {
     toggleRightDrawer() {
       this.drawer = !this.drawer
+      if (this.drawer) {
+        this.right = "325px"
+      } else {
+        this.right = "0"
+      }
     },
 
     toggleFilter() {

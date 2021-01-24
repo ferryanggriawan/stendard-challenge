@@ -133,9 +133,8 @@ export default {
 }
 
 .right-toggle-btn {
-  position: absolute;
-  right: -1px;
-  top: 25px;
+  position: fixed;
+  top: 81px;
   width: 30px;
   height: 75px;
   background: #fafafa;

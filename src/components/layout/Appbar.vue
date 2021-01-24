@@ -9,7 +9,7 @@
     class="px-6"
   >
     <v-text-field
-      label="Solo"
+      placeholder="Search solution..."
       shaped
       solo
       light

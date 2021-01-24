@@ -24,6 +24,11 @@
                 <v-list-item-title>
                   <v-icon v-text="menu.icon" class="mr-2"></v-icon>
                   <span>{{ menu.title }}</span>
+                  <template v-if="menu.chip !== undefined">
+                    <v-chip class="ma-2" x-small>
+                      x-small chip
+                    </v-chip>
+                  </template>
                 </v-list-item-title>
               </v-list-item-content>
             </template>
@@ -34,6 +39,11 @@
                   <v-icon v-text="submenu.icon"></v-icon>
                 </v-list-item-icon>
                 <v-list-item-title v-text="menu.type"></v-list-item-title>
+                <template v-if="menu.chip !== undefined">
+                  <v-chip class="ma-2" x-small>
+                    x-small chip
+                  </v-chip>
+                </template>
               </v-list-item>
             </template>
             <template v-else>
@@ -63,7 +73,14 @@
             <v-list-item-icon>
               <v-icon v-text="menu.icon"></v-icon>
             </v-list-item-icon>
-            <v-list-item-title v-text="menu.title"></v-list-item-title>
+            <v-list-item-title>
+              {{ menu.title }}
+              <template v-if="menu.chip !== undefined">
+                <v-chip color="primary" x-small class="ml-3">
+                  {{ menu.chip }}
+                </v-chip>
+              </template>
+            </v-list-item-title>
           </v-list-item>
         </template>
       </template>
@@ -86,11 +103,12 @@ export default {
         {
           title: "Document Generator",
           icon: "layers",
+          type: "menu",
         },
         {
           title: "Library",
           icon: "folder",
-          type: "folder",
+          type: "file-tree",
           submenus: [
             {
               name: "Evidence Submission",
@@ -127,18 +145,23 @@ export default {
         {
           title: "Workflow",
           icon: "sync_alt",
+          type: "menu",
         },
         {
           title: "Help",
           icon: "help_outline",
+          type: "menu",
         },
         {
           title: "Audit Trail",
           icon: "list",
+          type: "menu",
         },
         {
           title: "Change Log",
           icon: "history",
+          type: "menu",
+          chip: "New",
         },
       ],
       initiallyOpen: ["public"],

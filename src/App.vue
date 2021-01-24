@@ -4,68 +4,8 @@
 
     <left-navbar></left-navbar>
 
-    <v-navigation-drawer app clipped right color="#fafafa">
-      <v-list>
-        <template v-for="(menu, i) in menus">
-          <template v-if="menu.submenus !== undefined">
-            <v-list-group :value="false" no-action sub-group :key="i">
-              <template v-slot:activator>
-                <v-list-item-content>
-                  <v-list-item-title>
-                    <v-icon v-text="menu.icon" class="mr-2"></v-icon>
-                    <span>{{ menu.title }}</span>
-                  </v-list-item-title>
-                </v-list-item-content>
-              </template>
-
-              <template v-if="menu.type === 'menu'">
-                <v-list-item
-                  v-for="(submenu, i) in menu.submenus"
-                  :key="i"
-                  link
-                >
-                  <v-list-item-icon>
-                    <v-icon v-text="submenu.icon"></v-icon>
-                  </v-list-item-icon>
-                  <v-list-item-title v-text="menu.type"></v-list-item-title>
-                </v-list-item>
-              </template>
-              <template v-else>
-                <v-treeview
-                  v-model="tree"
-                  :open="initiallyOpen"
-                  :items="menu.submenus"
-                  activatable
-                  item-key="name"
-                  open-on-click
-                >
-                  <template v-slot:prepend="{ item, open }">
-                    <v-icon v-if="!item.file">
-                      {{ open ? "folder_open" : "folder" }}
-                    </v-icon>
-                    <v-icon v-else>
-                      {{ files[item.file] }}
-                    </v-icon>
-                  </template>
-                </v-treeview>
-              </template>
-            </v-list-group>
-          </template>
-
-          <template v-else>
-            <v-list-item link :key="i">
-              <v-list-item-icon>
-                <v-icon v-text="menu.icon"></v-icon>
-              </v-list-item-icon>
-              <v-list-item-title v-text="menu.title"></v-list-item-title>
-            </v-list-item>
-          </template>
-        </template>
-      </v-list>
-    </v-navigation-drawer>
-
     <v-main>
-      <!--  -->
+      <router-view></router-view>
     </v-main>
   </v-app>
 </template>
@@ -77,12 +17,67 @@ import LeftNavbar from "./components/layout/LeftNavbar"
 export default {
   data() {
     return {
+      drawer: false,
       value: 54,
       bufferValue: 2000,
+      menus: [
+        {
+          title: "Ahyar Afal Imanudin",
+          icon: "face",
+          type: "menu",
+          submenus: [{ title: "Sub Menu", icon: "add" }],
+        },
+        {
+          title: "Document Generator",
+          icon: "layers",
+        },
+        {
+          title: "Workflow",
+          icon: "sync_alt",
+        },
+        {
+          title: "Help",
+          icon: "help_outline",
+        },
+        {
+          title: "Audit Trail",
+          icon: "list",
+        },
+        {
+          title: "Change Log",
+          icon: "history",
+        },
+      ],
+      items: [
+        {
+          text: "Dashboard",
+          disabled: false,
+          href: "breadcrumbs_dashboard",
+        },
+        {
+          text: "Link 1",
+          disabled: false,
+          href: "breadcrumbs_link_1",
+        },
+        {
+          text: "Link 2",
+          disabled: true,
+          href: "breadcrumbs_link_2",
+        },
+      ],
     }
   },
 
-  components: { LeftNavbar, Appbar },
+  components: {
+    LeftNavbar,
+    Appbar,
+  },
+
+  methods: {
+    toggleRightDrawer() {
+      this.drawer = !this.drawer
+    },
+  },
 }
 </script>
 
@@ -123,7 +118,7 @@ export default {
   border-radius: 50px !important;
 }
 
-.v-input__slot {
+.v-toolbar__content .v-input__slot {
   padding: 0 24px !important;
 }
 
@@ -134,5 +129,21 @@ export default {
 .v-list-item__title {
   font-size: 0.8rem;
   color: #565656;
+}
+
+.right-toggle-btn {
+  position: absolute;
+  right: -1px;
+  top: 25px;
+  width: 30px;
+  height: 75px;
+  background: #fafafa;
+  z-index: 99;
+  display: flex;
+  align-items: center;
+  border-radius: 8px 0 0 8px;
+  justify-items: center;
+  justify-content: center;
+  cursor: pointer;
 }
 </style>

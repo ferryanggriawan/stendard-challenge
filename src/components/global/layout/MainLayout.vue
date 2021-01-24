@@ -103,6 +103,14 @@
 
       <slot></slot>
     </div>
+
+    <v-menu offset-y>
+      <v-list>
+        <v-list-item v-for="(item, index) in 5" :key="index">
+          <v-list-item-title>Name</v-list-item-title>
+        </v-list-item>
+      </v-list>
+    </v-menu>
   </div>
 </template>
 
@@ -143,6 +151,10 @@ export default {
       } else {
         this.panel = []
       }
+    },
+
+    openMenu(e) {
+      console.log("ioe", e.y)
     },
   },
 }

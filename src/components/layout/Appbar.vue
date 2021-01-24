@@ -43,10 +43,10 @@
       </span>
     </div>
     <v-btn icon>
-      <v-icon>business</v-icon>
+      <v-icon>notifications_active</v-icon>
     </v-btn>
     <v-btn icon>
-      <v-icon>notifications_active</v-icon>
+      <v-icon>exit_to_app</v-icon>
     </v-btn>
   </v-app-bar>
 </template>

@@ -112,6 +112,7 @@ export default {
 
 .v-list-group__items .v-treeview .v-treeview-node__root {
   padding-left: 24px;
+  max-width: 260px;
 }
 
 .v-text-field--shaped {

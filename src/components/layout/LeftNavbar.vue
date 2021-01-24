@@ -52,11 +52,12 @@
                 :open="initiallyOpen"
                 :items="menu.submenus"
                 activatable
-                item-key="name"
+                item-key="id"
+                item-text="text"
                 open-on-click
               >
                 <template v-slot:prepend="{ item, open }">
-                  <v-icon v-if="!item.file">
+                  <v-icon v-if="item.type === 'itsfolder'">
                     {{ open ? "folder_open" : "folder" }}
                   </v-icon>
                   <v-icon v-else>
@@ -111,34 +112,79 @@ export default {
           type: "file-tree",
           submenus: [
             {
-              name: "Evidence Submission",
-              file: "doc",
-            },
-            {
-              name: "Connect My Drive",
-              file: "gdrive",
-            },
-            {
-              name: "Design",
+              id: "folder_7375",
+              type: "itsfolder",
+              text: "Document generated on Apr 2, 2020 12.24 PM (GMT+7)",
               children: [
                 {
-                  name: "logo.png",
-                  file: "png",
+                  id: "folder_2222",
+                  type: "itsfolder",
+                  text: "Forms",
+                  children: [],
+                },
+                {
+                  id: "folder_2223",
+                  type: "itsfolder",
+                  text: "Procedures",
+                  children: [],
                 },
               ],
             },
             {
-              name: "Project A",
-              children: [
-                {
-                  name: "logo.png",
-                  file: "png",
-                },
-              ],
+              id: "folder_7959",
+              type: "itsfolder",
+              text: "Document generated on Apr 20, 2020 5.19 PM (GMT+7)",
+              children: [],
             },
             {
-              name: "Bin",
-              file: "trash",
+              id: "folder_7488",
+              type: "itsfolder",
+              text: "Document generated on Apr 8, 2020 10.23 AM (GMT+7)",
+              children: [],
+            },
+            {
+              id: "folder_11421",
+              type: "itsfolder",
+              text: "Document generated on Aug 26, 2020 3.55 PM (GMT+7)",
+              children: [],
+            },
+            {
+              id: "folder_6601",
+              type: "itsfolder",
+              text: "Document generated on Feb 17, 2020 3.01 PM (GMT+7)",
+              children: [],
+            },
+            {
+              id: "folder_6655",
+              type: "itsfolder",
+              text: "Document generated on Feb 18, 2020 12.04 PM (GMT+7)",
+              children: [],
+            },
+            {
+              id: "folder_6187",
+              type: "itsfolder",
+              text: "Document generated on Feb 2, 2020 7.44 PM (GMT+7)",
+              children: [],
+            },
+            {
+              id: "folder_5855",
+              type: "itsfolder",
+              text:
+                "Free preview documents generated on Jan 21, 2020 8.46 PM (GMT+7)",
+              children: [],
+            },
+            {
+              id: "folder_4503",
+              type: "itsfolder",
+              text:
+                "Free preview documents generated on Jan 5, 2020 9.06 AM (GMT+7)",
+              children: [],
+            },
+            {
+              id: "folder_6482",
+              type: "itsfolder",
+              text: "Test 01",
+              children: [],
             },
           ],
         },
